@@ -3,6 +3,11 @@ FROM node:18-alpine
 
 # 2. Directorio de trabajo dentro del contenedor: /app
 WORKDIR /app
+ENV PUERTO=8080
+ENV NOMBRE_PARQUE="Eolica Naranco"
+
+
+
 
 # 3. Copiar el fichero app.js al contenedor
 COPY app.js .
