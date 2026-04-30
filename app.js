@@ -274,6 +274,11 @@ const server = http.createServer((req, res) => {
   }
 
   // TAREA 2: Añade aquí la ruta /aerogeneradores
+if (req.url === '/aerogeneradores') {
+    res.writeHead(200, { 'Content-Type': 'text/html; charset=utf-8' });
+    res.end('<h1>Listado de Aerogeneradores</h1><p>Panel de control de los 12 aerogeneradores en servicio.</p><a href="/">Volver al inicio</a>');
+    return;
+}
   // TAREA 5: Añade aquí la ruta /salud
 
   res.writeHead(404, { 'Content-Type': 'text/html; charset=utf-8' });
