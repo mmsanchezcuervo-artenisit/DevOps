@@ -11,6 +11,9 @@ COPY app.js .
 RUN mkdir /data
 
 # 5. Puerto que usa la app
+ENV PUERTO=8080
+ENV NOMBRE_PARQUE="Eólica Naranco"
+
 EXPOSE 8080
 
 # 6. Comando para arrancar
