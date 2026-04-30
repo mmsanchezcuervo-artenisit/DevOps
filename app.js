@@ -273,7 +273,12 @@ const server = http.createServer((req, res) => {
     return;
   }
 
-  // TAREA 2: Añade aquí la ruta /aerogeneradores
+// TAREA 2: Detectar la ruta /aerogeneradores
+if (req.url === '/aerogeneradores') {
+    res.writeHead(200, { 'Content-Type': 'text/html; charset=utf-8' });
+    res.end('<h1>Panel de Control: Aerogeneradores</h1><p>Estado del sistema: Operativo</p><a href="/">Volver al inicio</a>');
+    return;
+}
   // TAREA 5: Añade aquí la ruta /salud
 
   res.writeHead(404, { 'Content-Type': 'text/html; charset=utf-8' });
