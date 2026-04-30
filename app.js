@@ -273,8 +273,24 @@ const server = http.createServer((req, res) => {
     return;
   }
 
-  // TAREA 2: Añade aquí la ruta /aerogeneradores
-  // TAREA 5: Añade aquí la ruta /salud
+ // TAREA 2: Añade aquí la ruta /aerogeneradores
+if (req.url === '/aerogeneradores') {
+  res.writeHead(200, { 'Content-Type': 'text/html' });
+  res.end('<h1>Aerogeneradores</h1><p>Listado de aerogeneradores de Eolica Naranco</p>');
+  return;
+}
+ // TAREA 5: Añade aquí la ruta /salud
+if (req.url === '/salud') {
+  res.writeHead(200, { 'Content-Type': 'application/json' });
+  res.end(JSON.stringify({
+    status: 'ok',
+    parque: process.env.NOMBRE_PARQUE,
+    admin: process.env.ADMIN_EMAIL,
+    timestamp: new Date().toISOString(),
+    uptime: process.uptime()
+  }, null, 2));
+  return;
+}
 
   res.writeHead(404, { 'Content-Type': 'text/html; charset=utf-8' });
   res.end('<h1>404 - Ruta no encontrada</h1>');
@@ -283,3 +299,4 @@ const server = http.createServer((req, res) => {
 server.listen(PUERTO, () => {
   console.log(`🌬️  ${NOMBRE_PARQUE} arrancado en puerto ${PUERTO}`);
 });
+
