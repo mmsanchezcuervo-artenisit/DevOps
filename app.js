@@ -7,6 +7,7 @@ const fs = require('fs');
 
 const PUERTO = process.env.PUERTO || 8080;
 const NOMBRE_PARQUE = process.env.NOMBRE_PARQUE || 'Eólica Naranco S.L.';
+const EMAIL_ADMIN = process.env.EMAIL_ADMIN || 'admin@eolica-naranco.es';
 const RUTA_VISITAS = '/data/visitas.txt';
 
 // Lee el contador de visitas
@@ -239,14 +240,14 @@ function paginaPrincipal(visitas) {
       <span class="badge">✓ activo</span>
     </div>
     <div class="ruta">
-      <code>GET /aerogeneradores</code>
+      <code><a href="/aerogeneradores" style="color: inherit; text-decoration: none;">GET /aerogeneradores</a></code>
       <span>Lista de aerogeneradores</span>
-      <span class="badge pendiente">tarea 2</span>
+      <span class="badge">✓ activo</span>
     </div>
     <div class="ruta">
-      <code>GET /salud</code>
+      <code><a href="/salud" style="color: inherit; text-decoration: none;">GET /salud</a></code>
       <span>Estado del servidor</span>
-      <span class="badge pendiente">tarea 5</span>
+      <span class="badge">✓ activo</span>
     </div>
   </div>
 
@@ -262,19 +263,39 @@ function paginaPrincipal(visitas) {
 // ============================================
 
 const server = http.createServer((req, res) => {
-  const visitas = leerVisitas() + 1;
-  guardarVisitas(visitas);
-
   console.log(`[${new Date().toISOString()}] ${req.method} ${req.url}`);
 
-  if (req.url === '/' || req.url.startsWith('/?')) {
+  // Extraemos la ruta limpia (sin parámetros de búsqueda y sin barra final)
+  const path = req.url.split('?')[0].replace(/\/+$/, '') || '/';
+
+  if (path === '/') {
+    const visitas = leerVisitas() + 1;
+    guardarVisitas(visitas);
     res.writeHead(200, { 'Content-Type': 'text/html; charset=utf-8' });
     res.end(paginaPrincipal(visitas));
     return;
   }
 
-  // TAREA 2: Añade aquí la ruta /aerogeneradores
-  // TAREA 5: Añade aquí la ruta /salud
+  if (path === '/aerogeneradores') {
+    const visitas = leerVisitas() + 1;
+    guardarVisitas(visitas);
+    res.writeHead(200, { 'Content-Type': 'text/html; charset=utf-8' });
+    res.end('<h1>Lista de aerogeneradores</h1><p>Esta sección está en desarrollo.</p>');
+    return;
+  }
+
+ // TAREA 5: Esto debe ir ANTES de cualquier ruta por defecto
+if (req.url === '/salud') {
+    const estado = {
+        status: 'ok',
+        parque: process.env.NOMBRE_PARQUE || 'Sin nombre',
+        admin: process.env.ADMIN_EMAIL || 'Sin email',
+        timestamp: new Date().toISOString(),
+        uptime: process.uptime()
+    };
+    res.writeHead(200, { 'Content-Type': 'application/json' });
+    return res.end(JSON.stringify(estado, null, 2)); // El return es clave
+}
 
   res.writeHead(404, { 'Content-Type': 'text/html; charset=utf-8' });
   res.end('<h1>404 - Ruta no encontrada</h1>');
