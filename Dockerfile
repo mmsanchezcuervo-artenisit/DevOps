@@ -18,5 +18,12 @@ RUN mkdir /data
 # 5. El puerto que usa la app: 8080
 EXPOSE 8080
 
+# Configuración del Healthcheck
+HEALTHCHECK --interval=30s --timeout=5s --retries=3 \
+  CMD wget -qO- http://localhost:8080/salud || exit 1
+
+
+
+
 # 6. El comando para arrancar la app: node app.js
 CMD ["node", "app.js"]
