@@ -274,7 +274,65 @@ const server = http.createServer((req, res) => {
   }
 
   // TAREA 2: Añade aquí la ruta /aerogeneradores
+  if (req.url === "/aerogeneradores") {
+  res.writeHead(200, { "Content-Type": "text/html; charset=utf-8" });
+  res.end(`
+    <!DOCTYPE html>
+    <html lang="es">
+    <head>
+      <meta charset="UTF-8">
+      <title>Aerogeneradores</title>
+    </head>
+    <body>
+      <h1>Aerogeneradores - Eólica Naranco</h1>
+      <p>Listado de aerogeneradores del parque eólico.</p>
+
+      <table border="1">
+        <thead>
+          <tr>
+            <th>Código</th>
+            <th>Sector</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr><td>AG-01</td><td>Sector Norte</td></tr>
+          <tr><td>AG-02</td><td>Sector Norte</td></tr>
+          <tr><td>AG-03</td><td>Sector Norte</td></tr>
+          <tr><td>AG-04</td><td>Sector Sur</td></tr>
+          <tr><td>AG-05</td><td>Sector Sur</td></tr>
+          <tr><td>AG-06</td><td>Sector Sur</td></tr>
+          <tr><td>AG-07</td><td>Sector Este</td></tr>
+          <tr><td>AG-08</td><td>Sector Este</td></tr>
+          <tr><td>AG-09</td><td>Sector Este</td></tr>
+          <tr><td>AG-10</td><td>Sector Oeste</td></tr>
+          <tr><td>AG-11</td><td>Sector Oeste</td></tr>
+          <tr><td>AG-12</td><td>Sector Oeste</td></tr>
+        </tbody>
+      </table>
+
+      <p><a href="/">Volver al panel de control</a></p>
+    </body>
+    </html>
+  `);
+    return;
+  }
+
   // TAREA 5: Añade aquí la ruta /salud
+  if (req.url === "/salud") {
+  const response = {
+    status: "ok",
+    parque: process.env.NOMBRE_PARQUE || "No definido",
+    admin: process.env.ADMIN_EMAIL || "No definido",
+    timestamp: new Date().toISOString(),
+    uptime: process.uptime()
+  };
+
+  res.writeHead(200, { "Content-Type": "application/json" });
+  res.end(JSON.stringify(response, null, 2));
+  return;
+}
+
+  // Ruta no encontrada
 
   res.writeHead(404, { 'Content-Type': 'text/html; charset=utf-8' });
   res.end('<h1>404 - Ruta no encontrada</h1>');
